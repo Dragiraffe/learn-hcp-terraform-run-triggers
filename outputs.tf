@@ -1,12 +1,4 @@
-output "instance_hostname" {
-  description = "Private DNS name of the EC2 instance."
-  value       = aws_instance.app_server.private_dns
+output "resource_group_id" {
+  value = azurerm_resource_group.rg.id
 }
 
-output "instance_security_group_ids" {
-  value = aws_instance.app_server.vpc_security_group_ids
-}
-
-output "instance_subnet" {
-  value = aws_instance.app_server.subnet_id
-}

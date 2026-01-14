@@ -1,31 +1,40 @@
-provider "aws" {
-  region = "us-west-2"
-}
-
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"]
+# Configure the Azure provider
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.0.2"
+    }
+    tfe = {
+      source  = "hashicorp/tfe"
+      version = "~> 0.67.1"
+    }
   }
-
-  owners = ["099720109477"] # Canonical
+  cloud {
+    organization = "AdriTanulTF"
+    workspaces { 
+      name = "learn-hcp-terraform"
+    }
+  }
+}
+provider "azurerm" {
+  features {}
 }
 
-data "tfe_outputs" "source_workspace" {
-  workspace    = var.workspace_name
-  organization = var.organization_name
-}
-
-resource "aws_instance" "app_server" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
-
-  vpc_security_group_ids = data.tfe_outputs.source_workspace.nonsensitive_values.instance_security_group_ids
-  subnet_id              = data.tfe_outputs.source_workspace.nonsensitive_values.instance_subnet
+resource "azurerm_resource_group" "rg" {
+  name     = var.resource_group_name
+  location = "westus2"
 
   tags = {
-    Name = var.instance_name
+    Environment = "Testing pull request"
+    Team        = "DevOps"
   }
+}
+
+# Create a virtual network
+resource "azurerm_virtual_network" "vnet" {
+  name                = "myTFVnet"
+  address_space       = ["10.0.0.0/16"]
+  location            = "westus2"
+  resource_group_name = azurerm_resource_group.rg.name
 }
