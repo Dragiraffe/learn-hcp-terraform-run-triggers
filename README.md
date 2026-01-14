@@ -1,3 +1,8 @@
+20260114: Link workspaces, use tfe_otputs dta source
+Below materials have been replaced with my own files to work with Azure.
+
+###
+
 This is a template repository used in the [Link dependent workspaces tutoral](https://developer.hashicorp.com/terraform/tutorials/cloud-get-started/cloud-link-workspaces)
 
 This repository contains the following files:
