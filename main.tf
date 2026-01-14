@@ -42,7 +42,7 @@ resource "azurerm_network_security_group" "rg" {
 resource "azurerm_virtual_network" "vnet1" {
   name                = "myNewTFVnet"
   address_space       = ["10.0.0.0/16"]
-  location            = azurem_resource_group.rg.location
+  location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
   subnet {
