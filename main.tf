@@ -53,6 +53,6 @@ resource "azurerm_virtual_network" "vnet1" {
   subnet {
     name             = "subnet2"
     address_prefixes = ["10.0.2.0/24"]
-    security_group   = data.tfe_outputs.source_workspace.outputs["nsgid"].value
+    security_group   = azurerm_network_security_group.rg.id
   }
 }
